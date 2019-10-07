@@ -1,4 +1,6 @@
 # Declare the libraries needed
+# coding: utf-8
+
 import tweepy
 import pandas as pd
 import sys
@@ -6,19 +8,14 @@ import csv
 from wordcloud import WordCloud, STOPWORDS
 import matplotlib as mpl
 import matplotlib.pyplot as plt
+import string
 import re
 from PIL import Image
-import pandas_profiling
 
-consumer_key = 'xxx'
-consumer_secret = 'xxx'
-access_token_key = 'xxx'
-access_token_secret = 'xxx'
-
-api = tweepy.Api(consumer_key,
-                 consumer_secret,
-                 access_token_key,
-                 access_token_secret)
+consumer_key = 'Hy1GF2Vf0bAs6XvUFiF2REaNN'
+consumer_secret = 'Tp2dhktDvbDIcRhycq3YJt61zIxPqnaMmvXZMtdDhTiTRYgRTf'
+access_token_key = '1473697225-Lr0ryDLlmu7zddTnIFo3aSNej9juvrfepQSbRsH'
+access_token_secret = 'DEazD8ALNRCX3NTS1YucjA3LzaGpHyPXMr9FjyD8fvqOL'
 
 
 # Function to extract tweets
@@ -48,9 +45,13 @@ def get_tweets(username):
         writer.writerow(['User_Name', 'Tweet_ID', 'Source', 'Created_date', 'Retweet_count', 'Favorite_count', 'Tweet'])
         writer.writerows(tfile)
 
+
 def main():
     # user name
-    get_tweets("@KingJames")
+    # get_tweets("@KingJames")
+
+    bg = pd.read_csv("@KingJames_tweets_V1.csv", encoding='utf-8')
+    print(bg.head(10))
 
     bg2 = []
     import re
@@ -58,13 +59,21 @@ def main():
     pattern2 = re.compile("@[A-Za-z0-9]+")
     pattern3 = re.compile("https?://[A-Za-z0-9./]+")
 
-    for item in bg2:
-        tweet = re.sub(pattern1, "", item)  # version 1 of the tweet
-        tweet = re.sub(pattern2, "", tweet)
-        tweet = re.sub(pattern3, "", tweet)
-        bg2.append(tweet)
+    for index, row in bg.iterrows():
+        """
+        NOTE: please improve this way of filtering out emojis
+        b' needs to be cleaned up too
+        """
+
+        if '\\' not in row['Tweet']:
+            tweet = re.sub(pattern1, "", row['Tweet'])  # version 1 of the tweet
+            tweet = re.sub(pattern2, "", tweet)
+            tweet = re.sub(pattern3, "", tweet)
+            bg2.append(tweet)
 
     bg3 = pd.DataFrame(bg2, columns=['tweet'])
+    print('what')
+    print(bg3)
 
     mpl.rcParams['figure.figsize'] = (16.0, 10.0)
     mpl.rcParams['font.size'] = 12
@@ -83,9 +92,11 @@ def main():
         random_state=42
     ).generate(str(text))
 
-    print(wordcloud)
     fig = plt.figure(1)
     plt.imshow(wordcloud)
     plt.axis('off')
     plt.show()
     fig.savefig("word1.png", dpi=1400)
+
+
+main()
