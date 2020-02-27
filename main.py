@@ -12,10 +12,10 @@ import string
 import re
 from PIL import Image
 
-consumer_key = 'Hy1GF2Vf0bAs6XvUFiF2REaNN'
-consumer_secret = 'Tp2dhktDvbDIcRhycq3YJt61zIxPqnaMmvXZMtdDhTiTRYgRTf'
-access_token_key = '1473697225-Lr0ryDLlmu7zddTnIFo3aSNej9juvrfepQSbRsH'
-access_token_secret = 'DEazD8ALNRCX3NTS1YucjA3LzaGpHyPXMr9FjyD8fvqOL'
+consumer_key = 'xxx'
+consumer_secret = 'xxx'
+access_token_key = 'xxx'
+access_token_secret = 'xxx'
 
 
 # Function to extract tweets
